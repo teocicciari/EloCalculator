@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from player import Player
 
 def read_rating_list():
     print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
@@ -6,11 +7,11 @@ def read_rating_list():
 
     with open("rating_list", "r") as file:
         players = []
+
         for line in file.readlines():
             try:
-                player = line.split(' - ')
-                player = (player[0], int(player[1]), int(player[2]))
-                players.append(player)
+                p = line.split(' - ')
+                players.append(Player(p[0], p[1], int(p[2]), int(p[3])))
             except Exception as e:
                 print(e)
                 print(player)
