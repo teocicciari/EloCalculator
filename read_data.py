@@ -2,8 +2,12 @@
 from player import Player
 
 def read_rating_list():
-    print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
+    '''
+    Read the rating list from file, then append the players on a list
+    '''
+    print('..................................................')
     print("Read rating list")
+    print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 
     with open("rating_list", "r") as file:
         players = []
@@ -14,16 +18,24 @@ def read_rating_list():
                 players.append(Player(p[0], p[1], int(p[2]), int(p[3])))
             except Exception as e:
                 print(e)
-                print(player)
+        
+        for player in players:
+            print(player.name + ' - ' + str(player.rating)+ ' - ' + str(player.k))
 	
+    print('..................................................')
     print('OK!')
     print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 	
     return(players)
 
 def read_entry_list():
-    print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
+    '''
+    Read the entry list from file, this is the list with players who have played
+    rating games but not enough
+    '''
+    print('..................................................')
     print("Read entry list")
+    print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 
     with open("entry_list", "r") as file:
         players = []
@@ -34,8 +46,11 @@ def read_entry_list():
                 players.append(player)
             except Exception as e:
                 print(e)
-                print(player)
+        
+        for player in players:
+            print(player[0]+ ' - ' + str(player[3]))
     
+    print('..................................................')
     print('OK!')
     print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 
@@ -48,6 +63,9 @@ def read_file(filename):
     return(text)
 
 def read_tournament(text):
+    '''
+    Read the info of the tournament
+    '''
     nameT = text[0].rstrip()
     organizator = text[2][31:].rstrip()
     eloMed = text[3][31:35].rstrip()
@@ -59,3 +77,9 @@ def read_tournament(text):
         type_T = "a"
 
     return(nameT, date, organizator, eloMed, type_T)
+
+def read_players(text):
+    '''
+    Read the players from the new tournament
+    Returns the list of players
+    '''

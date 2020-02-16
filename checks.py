@@ -28,3 +28,8 @@ def check_file(text):
         print('Formato de archivo OK!')
         print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 
+def check_players_rating(Tplayers_list, rating_list):
+    '''
+    Check if players from the tournament with rating are in the rating list
+    And if the rating matches
+    '''

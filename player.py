@@ -4,4 +4,9 @@ class Player(object):
         self.id = id
         self.name = name
         self.rating = rating
-        self.n_games = n_games
+        if (n_games > 30):
+            self.k = 20  
+        else:
+            self.k = 40
+            
+        
