@@ -12,10 +12,11 @@ def main():
     filename = input("Nombre del archivo de input: ")
     text = read_file(filename)
     check_file(text)
-
     tournament = read_tournament(text)
-    # players_list = read_players(text)
-    # check_players_rating()
+
+    # in player_list are the players with rating
+    (players_list, new_players) = read_players(text, tournament[4])
+    # check_players_rating(player_list, rating_list)
 
 
 if __name__== "__main__":
