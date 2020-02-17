@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from player import Player
 import re
 
 def read_rating_list():
@@ -15,13 +14,16 @@ def read_rating_list():
 
         for line in file.readlines():
             try:
-                p = line.split(' - ')
-                players.append(Player(p[0], p[1], int(p[2]), int(p[3])))
+                player = line.split(' - ')
+                if int(player[3]) < 30: k=40
+                else: k = 20
+                player = (player[0], player[1], int(player[2]), k)
+                players.append(player)
             except Exception as e:
                 print(e)
         
         for player in players:
-            print(player.name + ' - ' + str(player.rating)+ ' - ' + str(player.k))
+            print(player[1] + ' - ' + str(player[2])+ ' - ' + str(player[3]))
 	
     print('..................................................')
     print('OK!')
@@ -156,28 +158,15 @@ def read_players(text, tType):
     print('..................................................')
     print("Read players from the tournament")
     print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
-    new_players = []
 
     if (tType == 'a'):
         player_list = getPlayers_americano(text) 
     else:
         player_list = getPlayers_suizo(text)
 
-    for player in player_list:
-        if (player[1] == 0):
-            new_players.append(player)
-            player_list.remove(player)
-
-    print('..................................................')
-    print("Players with rating: ")
-    print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
     for p in player_list:
         print(p[0] + ' ' + str(p[1]))
     
-    print('..................................................')
-    print("Players without rating: ")
     print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
-    for p in new_players:
-        print(p[0] + ' ' + str(p[1]))
 
-    return(player_list, new_players)
+    return(player_list)

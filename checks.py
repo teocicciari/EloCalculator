@@ -28,8 +28,23 @@ def check_file(text):
         print('Formato de archivo OK!')
         print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 
-def check_players_rating(Tplayers_list, rating_list):
+def check_players_rating(players_list, rating_list):
     '''
     Check if players from the tournament with rating are in the rating list
     And if the rating matches
+    TODO: que hacer en 
     '''
+    print('..................................................')
+    print("Chequendo los jugadores en la base...")
+    print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
+    for player in players_list:
+        if (player[1] != 0):
+            p = [_player for _player in rating_list if (_player[1] == player[0])]
+            try:
+                p = p[0]
+                if (player[1] != p[2]):
+                    print("el rating de "+player[0]+" no coincide con la base")
+                else:
+                    print("jugador OK")
+            except IndexError:
+                print("el jugador "+player[0]+" no se encuentra en la base")
