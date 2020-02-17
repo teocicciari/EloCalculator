@@ -2,6 +2,7 @@
 
 from read_data import *
 from checks import *
+from calculate import *
 
 def main():
     # Reading the lists
@@ -22,7 +23,17 @@ def main():
     # player_list = [(name, rating, results)]
                                     # results = [(oponent, result)]
 
-    check_players_rating(player_list, rating_list)
+    player_list = check_players_rating(player_list, rating_list)
+
+    (variations, new_players) = calculate(player_list)
+	# variations = (name, games, old_rating, new_rating)
+	# new_players = (name, games, score, av.oponents)
+
+    for player in variations:
+        print (player)
+    print("-----------------------")
+    for player in new_players:
+        print (player)
 
 
 if __name__== "__main__":

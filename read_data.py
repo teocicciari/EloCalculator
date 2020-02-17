@@ -17,7 +17,7 @@ def read_rating_list():
                 player = line.split(' - ')
                 if int(player[3]) < 30: k=40
                 else: k = 20
-                player = (player[0], player[1], int(player[2]), k)
+                player = (player[0], player[1], int(player[2]), k, player[3])
                 players.append(player)
             except Exception as e:
                 print(e)
