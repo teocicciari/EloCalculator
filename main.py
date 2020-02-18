@@ -3,6 +3,7 @@
 from read_data import *
 from checks import *
 from calculate import *
+from write_data import *
 
 def main():
     # Reading the lists
@@ -25,17 +26,14 @@ def main():
 
     check_players_rating(player_list, rating_list)
 
+    # Makes the messy things
     calculate(player_list)
     calculate_init(player_list, entry_list)
 
-    for p in player_list:
-        if p.rankeado:
-            print(p.name +' - '+str(p.old_rating)+' -> '+str(p.rating))
-
-    for p in entry_list:
-        if p.entring:
-            print(p.name +' entró con '+ str(p.rating))
-
+    # Write all the files!
+    write_entry_list(entry_list)
+    write_rating_list(player_list, entry_list)
+    write_report(player_list, entry_list, tournament)
 
 if __name__== "__main__":
     main()

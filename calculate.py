@@ -110,7 +110,7 @@ def calculate_init(player_list, entry_list):
 				new_rating = player.av_op + (player.score - mid)*40
 
 			else:
-				per = format(player.score/player.games, '.2f')
+				per = format(player.score/player.n_games, '.2f')
 				var = conversion_table[float(per)]
 				new_rating = av_op + var
 

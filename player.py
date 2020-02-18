@@ -6,6 +6,7 @@ class Player(object):
         self.rating = rating
         self.results = results
         self.rankeado = False
+        self.id = 0
 
     def refresh_data_r(self, id, n_games, k):
         self.id = id
@@ -27,7 +28,7 @@ class Player(object):
 class Rated_player(object):
 
     def __init__(self, id, name, rating, n_games):
-        self.id = id
+        self.id = int(id)
         self.name = name
         self.rating = rating
         self.n_games = n_games
@@ -52,5 +53,5 @@ class Entry_player(object):
         self.av_op = av_op
 
     def new_rated(self, rating):
-        self.rating = rating
+        self.rating = int(rating)
         self.entring = True
