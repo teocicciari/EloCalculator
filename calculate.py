@@ -1,5 +1,8 @@
 from read_data import Entry_player
 
+# this conversion table can be found in the fide handbook
+# https://handbook.fide.com/chapter/B022017
+
 conversion_table = { 1.0 : 800, 0.99 : 677 , 0.98 : 589 , 0.97 : 538, 
                     0.96 : 501, 0.95 : 470 , 0.94 : 444, 0.93 : 422, 
                     0.92 : 401, 0.91 : 383, 0.90 : 366, 0.89 : 351, 
@@ -28,19 +31,14 @@ conversion_table = { 1.0 : 800, 0.99 : 677 , 0.98 : 589 , 0.97 : 538,
 
 def calculate(player_list):
 	'''
-	returns two lists:
-	variations = (name, games, old_rating, new_rating)
-	new_players = (name, games, score, av.oponents)
+	This function gets the performance of the players
+	it perform the most messy things of the program
 	'''
-
 	for player in player_list:
 		if (player.rating == 0):
-
-			n_games = 0
-			score = 0
-			av_op = 0
-
+			n_games, score, av_op = 0, 0, 0
 			rounds = player.results
+
 			for round in rounds:
 				oponent = round[0] - 1
 				ratingB = player_list[oponent].rating
@@ -53,42 +51,47 @@ def calculate(player_list):
 			try:
 				av_op = av_op / n_games
 				player.refresh_data_nr(n_games, score, av_op)
-
 			except:
 				pass
 
 		else:
-			sExpected = 0
-			points = 0
-			n_games = 0
+			sExpected, points, n_games = 0, 0, 0
+
 			k = player.k
-			
 			ratingA = player.rating
 			rounds = player.results
 			
 			for round in rounds:
 				n_games = n_games+1
 				points = points + float(round[1])
-				
 				oponent = round[0] - 1
 				ratingB = player_list[oponent].rating
 				expected = 1.0 * 1.0 / (1 + pow(10, 1.0 * (ratingB - ratingA) / 400))
 				sExpected = sExpected + expected
 			
 			newRating = ratingA + k * (points - sExpected)
-			
 			player.refresh_rating(int(newRating), n_games)
 
 def calculate_init(player_list, entry_list):
+	'''
+	For every player without rating it searches in the entry list:
+	+ merge the info if found
+	+ append the player to the entry list if is not there
+
+	mark the players who have enough games to get rating
+	'''
 
 	for p in player_list:
 		if not p.rankeado:
 			ep = [_player for _player in entry_list if (_player.name == p.name)]
+			# this line searchs the player in the entry list and returns it if found
+			# (inside of a list)
+
 			if (ep != []):
 				ep = ep[0]
-
 				n_games = ep.n_games + p.n_games
-				av_op = (((p.av_op * p.n_games) + (ep.av_op * ep.n_games)) / (n_games))
+				av_op = ((p.av_op * p.n_games) + (ep.av_op * ep.n_games)) / (n_games)
+
 				score = ep.score + p.score
 				ep.refresh(score, n_games, av_op)
 

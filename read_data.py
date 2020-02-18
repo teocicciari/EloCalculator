@@ -1,62 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-
-
-class Player(object):
-
-    def __init__(self, name, rating, results):
-        self.name = name
-        self.rating = rating
-        self.results = results
-        self.rankeado = False
-
-    def refresh_data_r(self, id, n_games, k):
-        self.id = id
-        self.n_games = n_games
-        self.k = k
-        self.rankeado = True
-
-    def refresh_data_nr(self, n_games, score, av_op):
-        self.n_games = n_games
-        self.score = score
-        self.av_op = av_op
-
-    def refresh_rating(self, new_rating, n_games):
-        self.n_games = self.n_games + n_games
-        self.old_rating = self.rating
-        self.rating = new_rating
-        self.variation = new_rating - self.old_rating
-
-class Rated_player(object):
-
-    def __init__(self, id, name, rating, n_games):
-        self.id = id
-        self.name = name
-        self.rating = rating
-        self.n_games = n_games
-
-        if(n_games < 30):
-            self.k = 40
-        else: 
-            self.k = 20
-
-class Entry_player(object):
-
-    def __init__(self, name, n_games, score, av_op):
-        self.name = name
-        self.n_games = n_games
-        self.score = score
-        self.av_op = av_op
-        self.entring = False
-    
-    def refresh(self, score, n_games, av_op):
-        self.score = score
-        self.n_games = n_games
-        self.av_op = av_op
-
-    def new_rated(self, rating):
-        self.rating = rating
-        self.entring = True
+from player import *
 
 def read_rating_list():
     '''
@@ -76,11 +20,7 @@ def read_rating_list():
                 players.append(p)
             except Exception as e:
                 print(e)
-        
-        for player in players:
-            print(player.name + ' - ' + str(player.rating)+ ' - ' + str(player.k))
-	
-    print('..................................................')
+
     print('OK!')
     print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 	
@@ -105,10 +45,6 @@ def read_entry_list():
             except Exception as e:
                 print(e)
         
-        for player in players:
-            print(player.name+ ' - ' + str(player.av_op))
-    
-    print('..................................................')
     print('OK!')
     print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 
@@ -205,10 +141,7 @@ def getPlayers_americano(t):
 def read_players(text, tourn_type):
     '''
     Read the players from the new tournament
-    Check if the players are in the rating list
-    Check if the rating match
-    Returns two list: list of the players with rating,
-    list with new players
+    returns a list of them
     '''
     print('..................................................')
     print("Read players from the tournament")
@@ -218,10 +151,5 @@ def read_players(text, tourn_type):
         player_list = getPlayers_americano(text) 
     else:
         player_list = getPlayers_suizo(text)
-
-    for p in player_list:
-        print(p.name + ' ' + str(p.rating))
-    
-    print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 
     return(player_list)
