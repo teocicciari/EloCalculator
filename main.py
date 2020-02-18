@@ -23,17 +23,18 @@ def main():
     # player_list = [(name, rating, results)]
                                     # results = [(oponent, result)]
 
-    player_list = check_players_rating(player_list, rating_list)
+    check_players_rating(player_list, rating_list)
 
-    (variations, new_players) = calculate(player_list)
-	# variations = (name, games, old_rating, new_rating)
-	# new_players = (name, games, score, av.oponents)
+    calculate(player_list)
+    calculate_init(player_list, entry_list)
 
-    for player in variations:
-        print (player)
-    print("-----------------------")
-    for player in new_players:
-        print (player)
+    for p in player_list:
+        if p.rankeado:
+            print(p.name +' - '+str(p.old_rating)+' -> '+str(p.rating))
+
+    for p in entry_list:
+        if p.entring:
+            print(p.name +' entró con '+ str(p.rating))
 
 
 if __name__== "__main__":

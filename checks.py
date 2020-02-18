@@ -40,21 +40,15 @@ def check_players_rating(players_list, rating_list):
     print("Chequendo los jugadores en la base...")
     print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 
-    new_players_list = []
     for player in players_list:
-        if (player[1] != 0):
-            p = [_player for _player in rating_list if (_player[1] == player[0])]
+        if (player.rating != 0):
+            p = [_player for _player in rating_list if (_player.name == player.name)]
             try:
                 p = p[0]
-                if (player[1] != p[2]):
-                    print("el rating de "+player[0]+" no coincide con la base")
+                if (player.rating != p.rating):
+                    print("el rating de "+player.name+" no coincide con la base")
                 else:
-                    player = (player[0], player[1], player[2], p[3], int(p[0]), int(p[4]))
-                    new_players_list.append(player)
+                    player.refresh_data_r(p.id, p.n_games, p.k)
                     print("jugador OK")
             except IndexError:
-                print("el jugador "+player[0]+" no se encuentra en la base")
-        else:
-            new_players_list.append(player)
-
-    return(new_players_list)
+                print("el jugador "+player.name+" no se encuentra en la base")

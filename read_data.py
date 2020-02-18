@@ -1,6 +1,63 @@
 # -*- coding: utf-8 -*-
 import re
 
+
+class Player(object):
+
+    def __init__(self, name, rating, results):
+        self.name = name
+        self.rating = rating
+        self.results = results
+        self.rankeado = False
+
+    def refresh_data_r(self, id, n_games, k):
+        self.id = id
+        self.n_games = n_games
+        self.k = k
+        self.rankeado = True
+
+    def refresh_data_nr(self, n_games, score, av_op):
+        self.n_games = n_games
+        self.score = score
+        self.av_op = av_op
+
+    def refresh_rating(self, new_rating, n_games):
+        self.n_games = self.n_games + n_games
+        self.old_rating = self.rating
+        self.rating = new_rating
+        self.variation = new_rating - self.old_rating
+
+class Rated_player(object):
+
+    def __init__(self, id, name, rating, n_games):
+        self.id = id
+        self.name = name
+        self.rating = rating
+        self.n_games = n_games
+
+        if(n_games < 30):
+            self.k = 40
+        else: 
+            self.k = 20
+
+class Entry_player(object):
+
+    def __init__(self, name, n_games, score, av_op):
+        self.name = name
+        self.n_games = n_games
+        self.score = score
+        self.av_op = av_op
+        self.entring = False
+    
+    def refresh(self, score, n_games, av_op):
+        self.score = score
+        self.n_games = n_games
+        self.av_op = av_op
+
+    def new_rated(self, rating):
+        self.rating = rating
+        self.entring = True
+
 def read_rating_list():
     '''
     Read the rating list from file, then append the players on a list
@@ -15,15 +72,13 @@ def read_rating_list():
         for line in file.readlines():
             try:
                 player = line.split(' - ')
-                if int(player[3]) < 30: k=40
-                else: k = 20
-                player = (player[0], player[1], int(player[2]), k, player[3])
-                players.append(player)
+                p = Rated_player(player[0], player[1], int(player[2]), int(player[3]))
+                players.append(p)
             except Exception as e:
                 print(e)
         
         for player in players:
-            print(player[1] + ' - ' + str(player[2])+ ' - ' + str(player[3]))
+            print(player.name + ' - ' + str(player.rating)+ ' - ' + str(player.k))
 	
     print('..................................................')
     print('OK!')
@@ -45,13 +100,13 @@ def read_entry_list():
         for line in file.readlines():
             try:
                 player = line.split(' - ')
-                player = (player[0], int(player[1]), float(player[2]), float(player[3]))
-                players.append(player)
+                p = Entry_player(player[0], int(player[1]), float(player[2]), float(player[3]))
+                players.append(p)
             except Exception as e:
                 print(e)
         
         for player in players:
-            print(player[0]+ ' - ' + str(player[3]))
+            print(player.name+ ' - ' + str(player.av_op))
     
     print('..................................................')
     print('OK!')
@@ -91,7 +146,7 @@ def getPlayers_suizo(t):
         player = t[line]
 
         name = player[13:36].rstrip()
-        elo = int(player[36:40])
+        rating = int(player[36:40])
         results = []
 
         for j in range(0, num_rounds):
@@ -108,7 +163,7 @@ def getPlayers_suizo(t):
             except ValueError:
                 pass
             
-        player = (name, elo, results)
+        player = Player(name, rating, results)
         player_list.append(player)
 
     return(player_list)
@@ -126,7 +181,7 @@ def getPlayers_americano(t):
         player = t[line]
 
         name = player[13:36].rstrip()
-        elo = int(player[36:40])
+        rating = int(player[36:40])
         results = []
 
         for oponent in range(1, num_rounds + 1):
@@ -142,12 +197,12 @@ def getPlayers_americano(t):
             except ValueError:
                 pass
 
-        player = (name, elo, results)
+        player = Player(name, rating, results)
         player_list.append(player)
 
     return(player_list)
 
-def read_players(text, tType):
+def read_players(text, tourn_type):
     '''
     Read the players from the new tournament
     Check if the players are in the rating list
@@ -159,13 +214,13 @@ def read_players(text, tType):
     print("Read players from the tournament")
     print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 
-    if (tType == 'a'):
+    if (tourn_type == 'a'):
         player_list = getPlayers_americano(text) 
     else:
         player_list = getPlayers_suizo(text)
 
     for p in player_list:
-        print(p[0] + ' ' + str(p[1]))
+        print(p.name + ' ' + str(p.rating))
     
     print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 
