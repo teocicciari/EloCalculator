@@ -24,6 +24,9 @@ class Player(object):
         self.old_rating = self.rating
         self.rating = new_rating
         self.variation = new_rating - self.old_rating
+    
+    def set_rating(self, rating):
+        self.rating = rating
 
 class Rated_player(object):
 

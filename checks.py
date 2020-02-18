@@ -28,12 +28,18 @@ def check_file(text):
         print('Formato de archivo OK!')
         print('´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´´')
 
+def menu(p, p_r):
+    print("el rating para "+ p.name +" en la base es "+ str(p_r.rating))
+    print("pero en el torneo esta ingresado con "+str(p.rating))
+    print("Presione 1 para conservar el valor de la base, 0 en el otro caso")
+    inp = input("")
+    if int(inp):
+        p.set_rating(p_r.rating)
+
 def check_players_rating(players_list, rating_list):
     '''
     Check if players from the tournament with rating are in the rating list
     And if the rating matches
-
-    TODO: que hacer en los casos de no matcheo
     '''
 
     print('..................................................')
@@ -49,12 +55,11 @@ def check_players_rating(players_list, rating_list):
                 p = p[0]
                 if (player.rating != p.rating):
                     print("el rating de "+player.name+" no coincide con la base")
-                    cErrors += cErrors
-                else:
-                    player.refresh_data_r(p.id, p.n_games, p.k)
+                    menu(player, p)
+                    
+                player.refresh_data_r(p.id, p.n_games, p.k)
             except IndexError:
                 print("el jugador "+player.name+" no se encuentra en la base")
-                cErrors += cErrors
+                cErrors = cErrors + 1
     
-    if cErrors == 0:
-        print("Everything OK")
+    return(cErrors)

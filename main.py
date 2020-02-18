@@ -4,6 +4,7 @@ from read_data import *
 from checks import *
 from calculate import *
 from write_data import *
+import sys
 
 def main():
     # Reading the lists
@@ -24,7 +25,11 @@ def main():
     # player_list = [(name, rating, results)]
                                     # results = [(oponent, result)]
 
-    check_players_rating(player_list, rating_list)
+    errors = check_players_rating(player_list, rating_list)
+    if errors == 0:
+        print("Everything OK")
+    else:
+        sys.exit()
 
     # Makes the messy things
     calculate(player_list)
